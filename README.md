@@ -1,3 +1,6 @@
+Modify model to handle fast moving camera situation.
+===============================================================================
+
 Detection of  Moving Objects  with Non-stationary  Cameras in  5.8ms: Bringing Motion Detection to Your Mobile Device
 ================================================================================
 
