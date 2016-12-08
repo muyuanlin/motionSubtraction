@@ -102,12 +102,16 @@ int main(int argc, char *argv[])
 	/************************************************************************/
 	/*  The main process loop                                               */
 	/************************************************************************/
+    char imgFile[100];
 	while (bRun == true && frame_num <= dTotalFrameNum) {	// the main loop
 
 		// Grab Frame
 		cvGrabFrame(pInVideo);
 		// Extract Frame (do decoding or other work)
-		IplImage *IplBuffer = cvRetrieveFrame(pInVideo);
+		//IplImage *IplBuffer = cvRetrieveFrame(pInVideo);
+        sprintf(imgFile, "/home/audren/Documents/dataset/sequences/04/image_0/%06d.png", frame_num);
+        IplImage *IplBuffer = cvLoadImage(imgFile, CV_LOAD_IMAGE_COLOR);
+        if (IplBuffer == NULL) cout <<"Could not load image!" <<endl;
 
 		// Copy to buffers
 		if (!frame_copy) {

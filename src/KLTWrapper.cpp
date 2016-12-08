@@ -21,8 +21,17 @@
 
 #include "KLTWrapper.hpp"
 
+#include <iostream>
 #include <vector>
 #include <highgui.h>
+#include "opencv2/core.hpp"
+#include "opencv2/imgproc.hpp"
+#include "opencv2/features2d.hpp"
+#include "opencv2/highgui.hpp"
+#include "opencv2/calib3d.hpp"
+#include "opencv2/xfeatures2d.hpp"
+
+using namespace cv;
 
 KLTWrapper::KLTWrapper(void)
 {
@@ -149,7 +158,8 @@ void KLTWrapper::RunTrack(IplImage * imgGray, IplImage * prevGray)
 
 void KLTWrapper::SwapData(IplImage * imgGray)
 {
-	cvCopyImage(imgGray, imgPrevGray);
+	cvCopy(imgGray, imgPrevGray);
+
 	CV_SWAP(prev_pyramid, pyramid, swap_temp);
 	CV_SWAP(points[0], points[1], swap_points);
 }
@@ -177,13 +187,17 @@ void KLTWrapper::MakeHomoGraphy(int *pnMatch, int nCnt)
 
 	_pt1 = cvMat(1, nCnt, CV_32FC2, &pt1[0]);
 	_pt2 = cvMat(1, nCnt, CV_32FC2, &pt2[0]);
+
+ 
+    //if (!cvFindFundamentalMat(&_pt1, &_pt2, &_h, CV_RANSAC, 1))
 	if (!cvFindHomography(&_pt1, &_pt2, &_h, CV_RANSAC, 1))
 //      if(!cvFindHomography( &_pt1, &_pt2, &_h, CV_LMEDS, 1))
 	{
 		return;
 	}
-
 	for (i = 0; i < 9; i++) {
 		matH[i] = h[i];
+        std::cout <<h[i]<< " ";
 	}
+    std::cout <<std::endl;
 }
